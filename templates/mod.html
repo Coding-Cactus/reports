@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>Reports</h1>
+<hr>
+{% for post in unresolved %}
+{% if post != 'deleted' %}
+<details>
+	<summary>
+		<a style='display: inline-block;max-width: calc(100% - 210px);overflow: hidden;white-space: nowrap;vertical-align: top;' href="{{unresolved[post]['url']}}">{{unresolved[post]['content']}}</a> | <strong>{{unresolved[post]['reports']}} report{{plural(unresolved[post]['reports'])}}</strong>
+		<form role="form" method="POST" action='/resolve?ids={{unresolved[post]["reportIDs"]}}' style="float: right;">
+			<button type="submit">resolve all</button>
+		</form>
+	</summary>
+	<div>
+		{% for reporter in unresolved[post]['reporters'] %}
+		<div style="height: 40px;"><a href="https://repl.it/@{{reporter}}">{{reporter}}</a>: {{unresolved[post]['reporters'][reporter]['reason']}} | <strong>{{unresolved[post]['reporters'][reporter]['timediff']}} ago</strong>
+		<form role="form" method="POST" action='/resolve?ids={{unresolved[post]["reporters"][reporter]["reportID"]}}' style="float: right;">
+			<button type="submit">resolve</button>
+		</form>
+		</div>
+		{% endfor %}
+	</div>
+</details>
+{% endif %}
+{% endfor %}
+{% if 'deleted' in unresolved %}
+<details>
+	<summary>Deleted posts/comments
+		<form role="form" method="POST" action='/resolve?ids={{unresolved["deleted"]["reportIDs"]}}' style="float: right;">
+			<button type="submit">resolve all</button>
+		</form>
+	</summary>
+	<div>
+		{% for reporter in unresolved['deleted']['reporters'] %}
+		<div style="height: 40px;">
+			<a href="https://repl.it/@{{unresolved['deleted']['reporters'][reporter]['creator']}}">{{unresolved['deleted']['reporters'][reporter]['creator']}}</a>: {{unresolved['deleted']['reporters'][reporter]['reason']}}
+			<form role="form" method="POST" action='/resolve?ids={{reporter}}' style="float: right;">
+				<button type="submit">resolve</button>
+			</form>
+		</div>
+		{% endfor %}
+	</div>
+</details>
+{% endif %}
+<script src="./static/script.js"></script>
+{% endblock %}
