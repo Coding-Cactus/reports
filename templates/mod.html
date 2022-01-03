@@ -7,7 +7,7 @@
 {% if post != 'deleted' %}
 <details>
 	<summary>
-		<a style='display: inline-block;max-width: calc(100% - 210px);overflow: hidden;white-space: nowrap;vertical-align: top;' href="{{unresolved[post]['url']}}">{{unresolved[post]['content']}}</a> | <strong>{{unresolved[post]['reports']}} report{{plural(unresolved[post]['reports'])}}</strong>
+		<a style='display: inline-block;max-width: calc(100% - 210px);overflow: hidden;white-space: nowrap;vertical-align: top;text-overflow: ellipsis;' href="{{unresolved[post]['url']}}">{{unresolved[post]['content']}}</a> | <strong>{{unresolved[post]['reports']}} report{{plural(unresolved[post]['reports'])}}</strong>
 		<form role="form" method="POST" action='/resolve?ids={{unresolved[post]["reportIDs"]}}' style="float: right;">
 			<button type="submit">resolve all</button>
 		</form>

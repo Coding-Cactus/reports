@@ -63,7 +63,6 @@ async def refresh_reports():
 	stop_loop = False
 	newUnresolved = {}
 	try:
-		repltalk.ReportList.reports = []
 		reports = await client.get_reports(resolved=False)
 		async for report in reports:
 			post = await report.get_attached()
